@@ -1,10 +1,215 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+:root{
+  --bg0:#05060a;
+  --bg1:#070a12;
+  --ink:#e9edf7;
+  --muted:#a9b3c7;
+  --glass: rgba(10, 14, 28, 0.55);
+  --glass2: rgba(10, 14, 28, 0.35);
+  --line: rgba(160, 190, 255, 0.14);
+  --line2: rgba(160, 190, 255, 0.07);
+  --glow: rgba(120, 170, 255, 0.22);
+  --accent: rgba(120, 170, 255, 0.95);
+  --shadow: 0 25px 60px rgba(0,0,0,.55);
+  --radius: 22px;
+}
+
+html, body{
+  height:100%;
+}
+
+body{
+  margin:0;
+  color:var(--ink);
+  background: radial-gradient(1200px 800px at 20% 10%, rgba(90,150,255,0.16), transparent 60%),
+              radial-gradient(900px 650px at 90% 25%, rgba(120,255,220,0.09), transparent 55%),
+              radial-gradient(1200px 900px at 60% 110%, rgba(210,120,255,0.08), transparent 55%),
+              linear-gradient(180deg, var(--bg0), var(--bg1));
+  overflow-x:hidden;
+}
+
+/* --- Inception-ish background scene --- */
+.inception-scene{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* “folding city” vibe: multiple perspective grids */
+.inception-scene::before,
+.inception-scene::after{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  transform-origin: 50% 60%;
+  opacity: .9;
+  filter: blur(0.0px);
+}
+
+.inception-scene::before{
+  background:
+    linear-gradient(var(--line2) 1px, transparent 1px) 0 0 / 70px 70px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 70px 70px;
+  transform: perspective(900px) rotateX(62deg) rotateZ(-10deg) translateY(10%);
+  mask-image: radial-gradient(closest-side at 50% 35%, black 55%, transparent 80%);
+}
+
+.inception-scene::after{
+  background:
+    linear-gradient(var(--line2) 1px, transparent 1px) 0 0 / 110px 110px,
+    linear-gradient(90deg, var(--line2) 1px, transparent 1px) 0 0 / 110px 110px;
+  transform: perspective(1100px) rotateX(76deg) rotateZ(22deg) translateY(18%);
+  mask-image: radial-gradient(closest-side at 55% 30%, black 40%, transparent 78%);
+  opacity:.55;
+}
+
+/* floating “light shafts” */
+.inception-lights{
+  position:absolute;
+  inset:0;
+  opacity:.9;
+  mix-blend-mode: screen;
+}
+
+.inception-lights span{
+  position:absolute;
+  width: 46vw;
+  height: 46vw;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, rgba(140,200,255,0.26), rgba(140,200,255,0) 60%);
+  filter: blur(10px);
+  animation: drift 14s ease-in-out infinite;
+}
+
+.inception-lights span:nth-child(1){
+  left:-10vw; top:-12vw;
+}
+.inception-lights span:nth-child(2){
+  right:-12vw; top: 8vw;
+  animation-duration: 18s;
+  opacity:.7;
+}
+.inception-lights span:nth-child(3){
+  left: 18vw; bottom:-16vw;
+  animation-duration: 22s;
+  opacity:.55;
+}
+
+@keyframes drift{
+  0%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(3vw,2vw) scale(1.06); }
+  100%{ transform: translate(0,0) scale(1); }
+}
+
+/* subtle noise (no image) */
+.inception-noise{
+  position:absolute;
+  inset:0;
+  opacity:.08;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 4px);
+  mix-blend-mode: overlay;
+  transform: translateZ(0);
+}
+
+/* --- Glass card / form container --- */
+.inception-card{
+  background: linear-gradient(180deg, var(--glass), var(--glass2));
+  border: 1px solid rgba(170, 200, 255, 0.18);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.inception-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(600px 260px at 20% 15%, rgba(120,170,255,0.26), transparent 60%),
+              radial-gradient(520px 260px at 80% 10%, rgba(120,255,220,0.14), transparent 62%);
+  opacity:.9;
+  pointer-events:none;
+}
+
+.inception-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(120deg, transparent 0 40%, rgba(255,255,255,0.06) 46%, transparent 52%) 0 0 / 260px 260px;
+  opacity:.35;
+  animation: sheen 9s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes sheen{
+  0%{ transform: translateX(-20%); }
+  100%{ transform: translateX(20%); }
+}
+
+/* Typography vibe */
+.inception-title{
+  color: #ffffff;
+  letter-spacing: .02em;
+  font-weight: 800;
+  text-shadow: 0 0 24px rgba(130,190,255,0.18);
+}
+
+.inception-sub{
+  color: var(--muted);
+}
+
+/* Inputs: sleek neon outline */
+.inception-form .form-control,
+.inception-form .form-select,
+.inception-form textarea{
+  background: rgba(8, 10, 18, 0.55);
+  border: 1px solid rgba(170, 200, 255, 0.18);
+  color: var(--ink);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+
+.inception-form .form-control:focus,
+.inception-form .form-select:focus,
+.inception-form textarea:focus{
+  border-color: rgba(120,170,255,0.75);
+  box-shadow: 0 0 0 .2rem rgba(120,170,255,0.18);
+  outline: none;
+}
+
+.inception-form label{
+  color: rgba(225,235,255,0.85);
+  font-weight: 600;
+}
+
+.inception-form .form-text,
+.inception-form .hint,
+.inception-form .help-block{
+  color: rgba(210,220,245,0.65);
+}
+
+/* Button */
+.btn-inception{
+  background: linear-gradient(135deg, rgba(120,170,255,0.95), rgba(120,255,220,0.45));
+  border: 0;
+  color: #06101a;
+  font-weight: 800;
+  border-radius: 16px;
+  padding: 12px 18px;
+  box-shadow: 0 12px 30px rgba(120,170,255,0.18);
+}
+
+.btn-inception:hover{
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.btn-inception:active{
+  transform: translateY(0);
+}

@@ -1,0 +1,11 @@
+<%= simple_form_for(@restaurant) do |f| %>
+  <%= f.input :name, input_html: { class: "w-100" } %>
+  <%= f.input :address, input_html: { class: "w-100" } %>
+  <%= f.input :phone_number, input_html: { class: "w-100" } %>
+
+  <%= f.input :category,
+              collection: Restaurant::CATEGORIES,
+              input_html: { class: "w-100" } %>
+
+  <%= f.button :submit, class: "btn btn-inception btn-lg mt-2 w-100" %>
+<% end %>
